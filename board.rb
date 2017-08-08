@@ -1,8 +1,13 @@
 require_relative 'piece'
+require_relative 'display'
 
 class Board
 
   attr_reader :grid
+
+  SPECIAL_ROW = [
+    Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
+  ]
 
   def initialize
     @grid = Array.new(8) { Array.new(8) }
@@ -10,13 +15,24 @@ class Board
   end
 
   def populate
-    starting_rows = [0, 1, 6, 7]
-    starting_rows.each do |i|
-      @grid[i].map! { Piece.new("piece") }
+    [1, 6].each do |i|
+      @grid[i].each_index do |j|
+        self[[i, j]] = Pawn.new(self, [i, j])
+      end
     end
+
+    [0, 7].each do |i|
+      @grid[i].each_index do |j|
+        self[[i, j]] = SPECIAL_ROW[j].new(self, [i, j])
+
+      end
+    end
+
     empty_rows = [2, 3, 4, 5]
     empty_rows.each do |i|
-      @grid[i].map! { Piece.new("null") }
+      @grid[i].each_index do |j|
+        self[[i, j]] = Null.instance
+      end
     end
   end
 
@@ -40,6 +56,11 @@ class Board
     rescue ArgumentError
       puts "Position is off the board"
     end
+  end
+
+  def on_board?(pos)
+    return true if pos.all? { |x| x.between?(0, 7) }
+    false
   end
 
 end

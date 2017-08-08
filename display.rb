@@ -6,9 +6,16 @@ require "byebug"
 
 class Display
 
+  attr_reader :cursor
+
   DISPLAY = {
-    null: "   ",
-    piece: " P "
+    null: "  ",
+    pawn: "♟ ",
+    king: "♚ ",
+    queen: "♛ ",
+    rook: "♜ ",
+    bishop: "♝ ",
+    knight: "♞ "
   }.freeze
 
   def initialize(board)
@@ -19,11 +26,11 @@ class Display
   def render
     rows = @board.grid.map.with_index do |row,i|
       row.map.with_index do |piece, j|
-        str = DISPLAY[piece.type.to_sym]
+        str = DISPLAY[piece.symbol]
         if (i + j).even?
-          str.colorize(:color => :white, :background => :black)
+          str.colorize(:color => :black, :background => :gray)
         else
-          str.colorize(:color => :black, :background => :white)
+          str.colorize(:color => :gray, :background => :white)
         end
       end
     end
@@ -31,11 +38,12 @@ class Display
     row, col = @cursor.cursor_pos
     cursor_str = rows[row][col]
     rows[row][col] = cursor_str.colorize(:background => :yellow)
+    if @cursor.selected
+      s_row, s_col = @cursor.selected_pos
+      selected_str = rows[s_row][s_col]
+      rows[s_row][s_col] = selected_str.colorize(:background => :green)
+    end
     rows.each { |row| puts row.join("") }
-  end
-
-  def color
-    @cursor.selected ? :red : :black
   end
 
   def display_board
@@ -43,10 +51,15 @@ class Display
       system("clear")
       render
       @cursor.get_input
+      # if
+      #   @board.move_piece(start_pos, end_pos)
+      # end
     end
   end
 end
 
-b = Board.new
-d = Display.new(b)
-d.display_board
+if $0 == __FILE__
+  board = Board.new
+  display = Display.new(board)
+  display.display_board
+end
