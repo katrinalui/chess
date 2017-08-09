@@ -51,9 +51,6 @@ class Display
       system("clear")
       render
       @cursor.get_input
-      # if
-      #   @board.move_piece(start_pos, end_pos)
-      # end
     end
   end
 end

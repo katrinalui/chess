@@ -33,7 +33,15 @@ module SlidingPiece
 end
 
 module SteppingPiece
+  def moves
+    dirs = move_dirs
+    moves = []
+    dirs.each do |dir|
+      moves << [@current_pos[0] + dir[0], @current_pos[1] + dir[1]]
+    end
 
+    moves
+  end
 end
 
 class Bishop < Piece #diagonal piece
@@ -66,10 +74,18 @@ end
 
 class Knight < Piece
   include SteppingPiece
+
+  def move_dirs
+    [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [ 1, -2], [ 1, 2], [ 2, -1], [ 2, 1]]
+  end
 end
 
 class King < Piece
   include SteppingPiece
+
+  def move_dirs
+    [[-1, -1], [1, 1], [-1, 1], [1, -1], [-1, 0], [1, 0], [0, 1], [0, -1]]
+  end
 end
 
 class Null < Piece

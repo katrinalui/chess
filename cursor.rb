@@ -79,6 +79,9 @@ class Cursor
   def handle_key(key)
     case key
     when :return, :space
+      if @selected == true && @board.valid_move?(board[@selected_pos], @cursor_pos)
+        @board.move_piece(@selected_pos, @cursor_pos)
+      end
       toggle_selected
       @cursor_pos
     when :left, :right, :up, :down
@@ -97,9 +100,9 @@ class Cursor
   def toggle_selected
     if @selected #if true
       @selected = false
-      @selected_pos = @cursor_pos
     else
       @selected = true
+      @selected_pos = @cursor_pos
     end
   end
 end

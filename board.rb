@@ -58,6 +58,11 @@ class Board
     end
   end
 
+  def valid_move?(piece, pos)
+    return true if piece.moves.include?(pos) && self[pos].is_a?(Null)
+    false
+  end
+
   def on_board?(pos)
     return true if pos.all? { |x| x.between?(0, 7) }
     false
