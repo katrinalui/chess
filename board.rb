@@ -15,17 +15,20 @@ class Board
   end
 
   def populate
-    [1, 6].each do |i|
-      @grid[i].each_index do |j|
-        self[[i, j]] = Pawn.new(self, [i, j])
-      end
+    @grid[1].each_index do |j|
+      self[[1, j]] = Pawn.new(self, [1, j], :red)
     end
 
-    [0, 7].each do |i|
-      @grid[i].each_index do |j|
-        self[[i, j]] = SPECIAL_ROW[j].new(self, [i, j])
+    @grid[6].each_index do |j|
+      self[[6, j]] = Pawn.new(self, [6, j], :black)
+    end
 
-      end
+    @grid[0].each_index do |j|
+      self[[0, j]] = SPECIAL_ROW[j].new(self, [0, j], :red)
+    end
+
+    @grid[7].each_index do |j|
+      self[[7, j]] = SPECIAL_ROW[j].new(self, [7, j], :black)
     end
 
     empty_rows = [2, 3, 4, 5]

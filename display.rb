@@ -27,10 +27,18 @@ class Display
     rows = @board.grid.map.with_index do |row,i|
       row.map.with_index do |piece, j|
         str = DISPLAY[piece.symbol]
-        if (i + j).even?
+        if (i + j).even? && piece.color == :black
           str.colorize(:color => :black, :background => :gray)
+        elsif (i + j).even? && piece.color == :red
+          str.colorize(:color => :red, :background => :gray)
+        elsif (i + j).odd? && piece.color == :black
+          str.colorize(:color => :black, :background => :white)
+        elsif (i + j).odd? && piece.color == :red
+          str.colorize(:color => :red, :background => :white)
+        elsif (i + j).even?
+          str.colorize(:background => :gray)
         else
-          str.colorize(:color => :gray, :background => :white)
+          str.colorize(:background => :white)
         end
       end
     end

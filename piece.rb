@@ -2,11 +2,12 @@ require 'singleton'
 require_relative 'board'
 
 class Piece
-  attr_reader :symbol
+  attr_reader :symbol, :color
 
-  def initialize(board, current_pos)
+  def initialize(board, current_pos, color)
     @board = board
     @current_pos = current_pos
+    @color = color
   end
 
   def symbol
@@ -91,5 +92,7 @@ end
 class Null < Piece
   include Singleton
 
-  def initialize; end
+  def initialize
+    @color = :default
+  end
 end
