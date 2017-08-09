@@ -3,6 +3,7 @@ require_relative 'board'
 
 class Piece
   attr_reader :symbol, :color
+  attr_accessor :current_pos
 
   def initialize(board, current_pos, color)
     @board = board

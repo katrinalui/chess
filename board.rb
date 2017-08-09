@@ -54,6 +54,7 @@ class Board
       raise StandardError if self[start_pos].nil?
       raise ArgumentError if end_pos.any? { |el| el > 7 }
       self[start_pos], self[end_pos] = self[end_pos], self[start_pos]
+      self[end_pos].current_pos = end_pos
     rescue StandardError
       puts "No piece at start position"
     rescue ArgumentError
