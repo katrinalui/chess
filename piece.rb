@@ -70,7 +70,13 @@ class Rook < Piece #straight up and down/ left and right
 end
 
 class Pawn < Piece
-
+  def moves
+    if @color == :red
+      [[@current_pos[0] + 1, @current_pos[1]]]
+    elsif @color == :black
+      [[@current_pos[0] - 1, @current_pos[1]]]
+    end
+  end
 end
 
 class Knight < Piece
